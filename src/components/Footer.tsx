@@ -25,6 +25,15 @@ export function Footer() {
               UnityDev Digital is a startup which will help you in bringing your
               business globally
             </div>
+            <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
+              <div>
+                <span className="font-bold">Contact:</span> +91-9802551120
+              </div>
+              <div>
+                <span className="font-bold">Website:</span>
+                www.unitydevdigital.com
+              </div>
+            </div>
           </div>
 
           <div>
@@ -78,7 +87,12 @@ export function Footer() {
 
         <div className="my-10 text-sm text-center text-gray-600 dark:text-gray-400">
           Copyright © {new Date().getFullYear()}.
-          <a href="https://www.glazestock.com/" target="_blank" rel="noopener ">
+          <a
+            className="font-bold text-indigo-500"
+            href="/"
+            target="_blank"
+            rel="noopener "
+          >
             UnityDev Digital
           </a>
         </div>
