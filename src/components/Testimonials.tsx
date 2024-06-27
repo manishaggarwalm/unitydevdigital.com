@@ -1,16 +1,45 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
 import { Container } from "@/components/Container";
+import { motion } from "framer-motion";
 
 import userOneImg from "../../public/img/user1.jpg";
 import userTwoImg from "../../public/img/user2.jpg";
 import userThreeImg from "../../public/img/user3.jpg";
 
+const container = {
+  offscreen: { opacity: 1, scale: 0 },
+  onscreen: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const item = {
+  offscreen: { y: 20, opacity: 0 },
+  onscreen: {
+    y: 0,
+    opacity: 1,
+  },
+};
+
 export const Testimonials = () => {
   return (
     <Container>
-      <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
-        <div className="lg:col-span-2 xl:col-auto">
+      <motion.div
+        className="grid gap-10 lg:grid-cols-2 xl:grid-cols-3"
+        initial="offscreen"
+        whileInView="onscreen"
+        viewport={{ once: true, amount: 0.8 }}
+        variants={container}
+      >
+        <motion.div className="lg:col-span-2 xl:col-auto" variants={item}>
           <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
             <p className="text-2xl leading-normal ">
               Share a real <Mark>testimonial</Mark>
@@ -23,8 +52,8 @@ export const Testimonials = () => {
               title="VP Sales at Google"
             />
           </div>
-        </div>
-        <div className="">
+        </motion.div>
+        <motion.div className="" variants={item}>
           <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
             <p className="text-2xl leading-normal ">
               Make sure you only pick the <Mark>right sentence</Mark>
@@ -37,8 +66,8 @@ export const Testimonials = () => {
               title="Lead marketer at Netflix"
             />
           </div>
-        </div>
-        <div className="">
+        </motion.div>
+        <motion.div className="" variants={item}>
           <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
             <p className="text-2xl leading-normal ">
               This is an <Mark>awesome</Mark> landing page template I&apos;ve
@@ -51,8 +80,8 @@ export const Testimonials = () => {
               title="Co-founder of Acme Inc"
             />
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </Container>
   );
 };

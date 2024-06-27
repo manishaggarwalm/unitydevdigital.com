@@ -1,18 +1,50 @@
 "use client";
 import React from "react";
 import { Container } from "@/components/Container";
-import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/react";
+import {
+  Disclosure,
+  DisclosureButton,
+  DisclosurePanel,
+} from "@headlessui/react";
 import { ChevronUpIcon } from "@heroicons/react/24/solid";
+import { motion } from "framer-motion";
+
+const container = {
+  offscreen: { opacity: 1, scale: 0 },
+  onscreen: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.3,
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const itemp = {
+  offscreen: { y: 20, opacity: 0 },
+  onscreen: {
+    y: 0,
+    opacity: 1,
+  },
+};
 
 export const Faq = () => {
   return (
     <Container className="!p-0">
       <div className="w-full max-w-2xl p-2 mx-auto rounded-2xl">
         {faqdata.map((item, index) => (
-          <div key={item.question} className="mb-5">
+          <motion.div
+            key={item.question}
+            className="mb-5"
+            initial="offscreen"
+            whileInView="onscreen"
+            viewport={{ once: true, amount: 0.8 }}
+            variants={container}
+          >
             <Disclosure>
               {({ open }) => (
-                <>
+                <motion.div variants={itemp}>
                   <DisclosureButton className="flex items-center justify-between w-full px-4 py-4 text-lg text-left text-gray-800 rounded-lg bg-gray-50 hover:bg-gray-100 focus:outline-none focus-visible:ring focus-visible:ring-indigo-100 focus-visible:ring-opacity-75 dark:bg-trueGray-800 dark:text-gray-200">
                     <span>{item.question}</span>
                     <ChevronUpIcon
@@ -24,15 +56,15 @@ export const Faq = () => {
                   <DisclosurePanel className="px-4 pt-4 pb-2 text-gray-500 dark:text-gray-300">
                     {item.answer}
                   </DisclosurePanel>
-                </>
+                </motion.div>
               )}
             </Disclosure>
-          </div>
+          </motion.div>
         ))}
       </div>
     </Container>
   );
-}
+};
 
 const faqdata = [
   {
