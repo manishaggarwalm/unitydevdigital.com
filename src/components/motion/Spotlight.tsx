@@ -23,7 +23,7 @@ export function Spotlight({ children, className }: { children: ReactNode; classN
       ref={ref}
       onPointerMove={handlePointerMove}
       className={cn(
-        "group/spot relative isolate overflow-hidden rounded-3xl border border-border bg-surface transition-colors duration-300 hover:border-brand/40",
+        "group/spot relative isolate overflow-hidden rounded-3xl border border-border bg-surface transition-colors duration-300 hover:border-brand/40 hover:shadow-[0_24px_60px_-30px_var(--shadow-tint)]",
         className,
       )}
     >
@@ -32,7 +32,7 @@ export function Spotlight({ children, className }: { children: ReactNode; classN
         className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-500 group-hover/spot:opacity-100"
         style={{
           background:
-            "radial-gradient(420px circle at var(--spot-x, 50%) var(--spot-y, 50%), color-mix(in srgb, var(--brand) 14%, transparent), transparent 70%)",
+            "radial-gradient(420px circle at var(--spot-x, 50%) var(--spot-y, 50%), color-mix(in srgb, var(--brand) 14%, transparent), color-mix(in srgb, var(--accent) 6%, transparent) 45%, transparent 70%)",
         }}
       />
       {children}

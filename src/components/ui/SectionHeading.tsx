@@ -10,7 +10,7 @@ export function Eyebrow({ children, className }: { children: ReactNode; classNam
         className,
       )}
     >
-      <span className="size-1.5 rounded-full bg-gradient-to-r from-brand to-accent" />
+      <span className="bg-sunset size-1.5 rounded-full" />
       {children}
     </span>
   );

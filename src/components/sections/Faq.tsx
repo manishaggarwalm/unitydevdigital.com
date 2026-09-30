@@ -49,7 +49,7 @@ export function Faq() {
                       <span
                         className={cn(
                           "grid size-8 shrink-0 place-items-center rounded-full border transition-all duration-300",
-                          isOpen ? "rotate-45 border-brand bg-brand text-white" : "border-border text-muted",
+                          isOpen ? "rotate-45 border-brand bg-brand text-on-brand" : "border-border text-muted",
                         )}
                       >
                         <PlusIcon className="size-4" />

@@ -65,7 +65,7 @@ export function HeroVisual() {
         className="relative size-full [transform-style:preserve-3d]"
       >
         {/* Glow */}
-        <div className="absolute inset-[18%] rounded-full bg-gradient-to-br from-brand/30 to-accent/30 blur-3xl" />
+        <div className="absolute inset-[18%] rounded-full bg-gradient-to-br from-highlight/25 via-brand/30 to-accent/30 blur-3xl" />
 
         {/* Outer orbit */}
         <Orbit nodes={outerNodes} inset="6%" spin="animate-spin-slow" counter="animate-spin-slow-reverse" size="lg" />
@@ -189,7 +189,7 @@ function StatusCard({
       transition={{ duration: 0.7, delay, ease: easeOut }}
       className={cn("absolute", className)}
     >
-      <div className="animate-float rounded-2xl border border-border bg-surface/95 px-4 py-3 shadow-[0_20px_50px_-20px_rgb(0_0_0/0.4)] backdrop-blur-xl">
+      <div className="animate-float rounded-2xl border border-border bg-surface/95 px-4 py-3 shadow-[0_20px_50px_-20px_var(--shadow-tint)] backdrop-blur-xl">
         <div className="flex items-center gap-2 text-sm font-semibold">
           <span className="relative flex size-2">
             <span className={cn("absolute inset-0 animate-ping rounded-full opacity-60", dot)} />

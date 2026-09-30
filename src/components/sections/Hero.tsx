@@ -149,6 +149,7 @@ function HeroBackground() {
       <div className="bg-grid mask-radial absolute inset-0" />
       <div className="absolute -top-40 left-[8%] size-[520px] animate-aurora rounded-full bg-brand/25 blur-[120px]" />
       <div className="absolute top-20 right-[4%] size-[460px] animate-aurora rounded-full bg-accent/20 blur-[120px] [animation-delay:-6s]" />
+      <div className="absolute top-[45%] left-[38%] size-[340px] animate-aurora rounded-full bg-highlight/15 blur-[120px] [animation-delay:-11s]" />
       <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
     </div>
   );

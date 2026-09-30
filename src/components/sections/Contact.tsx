@@ -116,7 +116,7 @@ export function Contact() {
         </div>
 
         <Reveal delay={0.1} direction="left">
-          <div className="relative rounded-3xl border border-border bg-surface/80 p-6 shadow-[0_40px_100px_-40px_rgb(0_0_0/0.35)] backdrop-blur-xl sm:p-9">
+          <div className="relative rounded-3xl border border-border bg-surface/80 p-6 shadow-[0_40px_100px_-40px_var(--shadow-tint)] backdrop-blur-xl sm:p-9">
             <AnimatePresence mode="wait" initial={false}>
               {status.state === "success" ? (
                 <SuccessMessage key="success" onReset={() => setStatus({ state: "idle" })} />
@@ -223,7 +223,7 @@ export function Contact() {
                     <Button type="submit" size="lg" arrow={!isSubmitting} disabled={isSubmitting}>
                       {isSubmitting ? (
                         <span className="flex items-center gap-2">
-                          <span className="size-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+                          <span className="size-4 animate-spin rounded-full border-2 border-on-brand/40 border-t-on-brand" />
                           Sending…
                         </span>
                       ) : (
@@ -298,7 +298,7 @@ function SuccessMessage({ onReset }: { onReset: () => void }) {
         initial={{ scale: 0, rotate: -45 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.1 }}
-        className="grid size-16 place-items-center rounded-full bg-gradient-to-br from-brand to-accent text-white shadow-[0_20px_50px_-15px_var(--brand)]"
+        className="bg-sunset grid size-16 place-items-center rounded-full text-on-brand shadow-[0_20px_50px_-15px_var(--brand)]"
       >
         <CheckIcon className="size-8" strokeWidth={2.5} />
       </m.div>
