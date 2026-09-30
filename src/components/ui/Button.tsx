@@ -3,46 +3,38 @@ import type { ComponentProps, ReactNode } from "react";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost";
+/** Material 3 button styles: filled, tonal, outlined and text. All are full pills. */
+type Variant = "filled" | "tonal" | "outlined" | "text";
 type Size = "md" | "lg";
 
 const base =
-  "group/btn relative inline-flex items-center justify-center gap-2 overflow-hidden rounded-full font-medium transition-all duration-300 disabled:pointer-events-none disabled:opacity-60";
+  "group/btn inline-flex items-center justify-center gap-2 rounded-full font-medium transition-[background-color,box-shadow,color] duration-200 ease-m3 disabled:pointer-events-none disabled:opacity-40";
 
 const variants: Record<Variant, string> = {
-  primary:
-    "bg-brand text-on-brand shadow-[0_10px_30px_-10px_var(--brand)] hover:-translate-y-px hover:bg-brand-strong hover:shadow-[0_16px_40px_-12px_var(--brand)]",
-  secondary:
-    "border border-border bg-surface/70 text-foreground backdrop-blur hover:-translate-y-px hover:border-brand/50 hover:bg-surface hover:shadow-[0_12px_30px_-18px_var(--shadow-tint)]",
-  ghost: "text-foreground hover:text-brand",
+  filled: "bg-brand text-on-brand hover:bg-brand-hover hover:shadow-[0_1px_3px_1px_rgb(0_0_0/0.15)]",
+  tonal: "bg-brand-container text-on-brand-container hover:shadow-[0_1px_3px_1px_rgb(0_0_0/0.12)]",
+  outlined: "border border-outline text-brand hover:bg-brand/8",
+  text: "text-brand hover:bg-brand/8",
 };
 
 const sizes: Record<Size, string> = {
-  md: "h-10 px-5 text-sm",
+  md: "h-10 px-6 text-sm",
   lg: "h-12 px-7 text-base",
 };
 
 type Common = { variant?: Variant; size?: Size; arrow?: boolean; children: ReactNode; className?: string };
 
-function Inner({ children, arrow, variant }: Pick<Common, "children" | "arrow" | "variant">) {
+function Inner({ children, arrow }: Pick<Common, "children" | "arrow">) {
   return (
     <>
-      {variant === "primary" && (
-        <span
-          aria-hidden
-          className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-700 group-hover/btn:translate-x-full"
-        />
-      )}
-      <span className="relative">{children}</span>
-      {arrow && (
-        <ArrowRightIcon className="relative size-4 transition-transform duration-300 group-hover/btn:translate-x-0.5" />
-      )}
+      <span>{children}</span>
+      {arrow && <ArrowRightIcon className="size-4 transition-transform duration-200 group-hover/btn:translate-x-0.5" />}
     </>
   );
 }
 
 export function ButtonLink({
-  variant = "primary",
+  variant = "filled",
   size = "md",
   arrow,
   className,
@@ -51,15 +43,13 @@ export function ButtonLink({
 }: Common & Omit<ComponentProps<typeof Link>, "children" | "className">) {
   return (
     <Link className={cn(base, variants[variant], sizes[size], className)} {...props}>
-      <Inner arrow={arrow} variant={variant}>
-        {children}
-      </Inner>
+      <Inner arrow={arrow}>{children}</Inner>
     </Link>
   );
 }
 
 export function Button({
-  variant = "primary",
+  variant = "filled",
   size = "md",
   arrow,
   className,
@@ -68,9 +58,7 @@ export function Button({
 }: Common & Omit<ComponentProps<"button">, "children" | "className">) {
   return (
     <button className={cn(base, variants[variant], sizes[size], className)} {...props}>
-      <Inner arrow={arrow} variant={variant}>
-        {children}
-      </Inner>
+      <Inner arrow={arrow}>{children}</Inner>
     </button>
   );
 }

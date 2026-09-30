@@ -1,64 +1,49 @@
-"use client";
-
-import { commitments, pillars } from "@/content/home";
+import type { ComponentType, SVGProps } from "react";
+import { AcademicCapIcon, ArrowsPointingOutIcon, EyeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
+import { principles, sections } from "@/content/home";
 import { Container } from "@/components/ui/Container";
-import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Spotlight } from "@/components/motion/Spotlight";
-import { Counter } from "@/components/motion/Counter";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { IconChip, SectionHeading, toneOrder } from "@/components/ui/SectionHeading";
+import { Stagger, StaggerItem } from "@/components/motion/Reveal";
+
+// One icon per principle, in the same order as `principles` in home.ts.
+const icons: ComponentType<SVGProps<SVGSVGElement>>[] = [
+  AcademicCapIcon,
+  EyeIcon,
+  LockClosedIcon,
+  ArrowsPointingOutIcon,
+];
 
 export function WhyUs() {
+  const s = sections.principles;
   return (
-    <section id="why-us" className="relative py-24 sm:py-32" aria-labelledby="why-title">
+    <section id="why-us" className="py-20 sm:py-28" aria-labelledby="why-title">
       <Container>
-        <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <div className="lg:sticky lg:top-32 lg:self-start">
-            <SectionHeading
-              id="why-title"
-              align="left"
-              eyebrow="Why UnityDev"
-              title={
-                <>
-                  One team. <span className="text-gradient">Shared ownership.</span>
-                </>
-              }
-              description="We work as an extension of your business, not a ticket-taking vendor. Your goals set our priorities, and we measure success by what reaches production."
-            />
-          </div>
-
-          <Stagger className="grid gap-5 sm:grid-cols-2" stagger={0.1}>
-            {pillars.map((pillar) => {
-              const Icon = pillar.icon;
+        <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <SectionHeading
+            id="why-title"
+            align="left"
+            eyebrow={s.eyebrow}
+            title={s.title}
+            description={s.description}
+            className="lg:sticky lg:top-28 lg:col-span-5 lg:self-start"
+          />
+          <Stagger className="grid gap-4 sm:grid-cols-2 lg:col-span-7" stagger={0.08}>
+            {principles.map((item, index) => {
+              const Icon = icons[index] ?? AcademicCapIcon;
               return (
-                <StaggerItem key={pillar.title} className="h-full">
-                  <Spotlight className="h-full p-7">
-                    <Icon className="size-7 text-brand transition-transform duration-500 group-hover/spot:scale-110" />
-                    <h3 className="mt-5 text-lg font-semibold">{pillar.title}</h3>
-                    <p className="mt-2 leading-relaxed text-muted">{pillar.description}</p>
-                  </Spotlight>
+                <StaggerItem key={item.title} className="h-full">
+                  <article className="h-full rounded-[1.75rem] bg-surface-2 p-7">
+                    <IconChip tone={toneOrder[index % toneOrder.length]}>
+                      <Icon className="size-6" />
+                    </IconChip>
+                    <h3 className="mt-6 text-xl">{item.title}</h3>
+                    <p className="mt-2 leading-relaxed text-muted">{item.description}</p>
+                  </article>
                 </StaggerItem>
               );
             })}
           </Stagger>
         </div>
-
-        <Reveal className="mt-20">
-          <dl className="grid gap-px overflow-hidden rounded-3xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
-            {commitments.map((item) => (
-              <div key={item.label} className="bg-surface p-8">
-                <dt className="sr-only">{item.label}</dt>
-                <dd>
-                  <Counter
-                    value={item.value}
-                    suffix={item.suffix}
-                    className="text-gradient font-display text-4xl font-semibold sm:text-5xl"
-                  />
-                  <p className="mt-3 text-sm leading-relaxed text-muted">{item.label}</p>
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </Reveal>
       </Container>
     </section>
   );

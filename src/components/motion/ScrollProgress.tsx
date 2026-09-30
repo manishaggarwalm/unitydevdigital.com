@@ -2,10 +2,10 @@
 
 import { m, useScroll, useSpring } from "motion/react";
 
-/** Thin gradient bar at the top of the viewport that tracks page scroll. */
+/** Thin primary-blue bar at the top of the viewport that tracks page scroll. */
 export function ScrollProgress() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
 
-  return <m.div aria-hidden style={{ scaleX }} className="bg-sunset fixed inset-x-0 top-0 z-[60] h-0.5 origin-left" />;
+  return <m.div aria-hidden style={{ scaleX }} className="fixed inset-x-0 top-0 z-[60] h-0.5 origin-left bg-brand" />;
 }

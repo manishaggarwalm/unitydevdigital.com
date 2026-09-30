@@ -6,10 +6,10 @@ import type { ReactNode } from "react";
 export const easeOut = [0.22, 1, 0.36, 1] as const;
 
 const directions = {
-  up: { y: 28 },
-  down: { y: -28 },
-  left: { x: 28 },
-  right: { x: -28 },
+  up: { y: 16 },
+  down: { y: -16 },
+  left: { x: 16 },
+  right: { x: -16 },
   none: {},
 } as const;
 
@@ -21,16 +21,16 @@ type RevealProps = {
   as?: "div" | "li" | "section" | "span";
 };
 
-/** Fades and slides its children into place the first time they scroll into view. */
+/** Fades and slides (no blur, short distance) its children into place the first time they scroll into view. */
 export function Reveal({ children, className, delay = 0, direction = "up", as = "div" }: RevealProps) {
   const Component = m[as];
   return (
     <Component
       className={className}
-      initial={{ opacity: 0, filter: "blur(6px)", ...directions[direction] }}
-      whileInView={{ opacity: 1, filter: "blur(0px)", x: 0, y: 0 }}
+      initial={{ opacity: 0, ...directions[direction] }}
+      whileInView={{ opacity: 1, x: 0, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: easeOut }}
+      transition={{ duration: 0.6, delay, ease: easeOut }}
     >
       {children}
     </Component>
@@ -43,8 +43,8 @@ const containerVariants: Variants = {
 };
 
 export const staggerItem: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.6, ease: easeOut } },
+  hidden: { opacity: 0, y: 16 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOut } },
 };
 
 /** Parent for a group of `StaggerItem`s that animate in one after another. */
@@ -57,7 +57,7 @@ export function Stagger({
   children: ReactNode;
   className?: string;
   stagger?: number;
-  as?: "div" | "ul" | "ol";
+  as?: "div" | "ul" | "ol" | "dl";
 }) {
   const Component = m[as];
   return (

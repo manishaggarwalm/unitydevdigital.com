@@ -16,29 +16,29 @@ export function Footer() {
   );
 
   return (
-    <footer className="relative border-t border-border bg-surface/40">
-      <Container className="grid gap-12 py-16 md:grid-cols-12">
-        <div className="md:col-span-5">
+    <footer className="bg-surface-2">
+      <Container className="grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-12">
+        <div className="lg:col-span-5">
           <Link href="/" aria-label="UnityDev Digital home" className="inline-block rounded-lg">
             <Logo />
           </Link>
-          <p className="mt-5 max-w-sm leading-relaxed text-muted">
-            {siteConfig.tagline}. AI, cloud and engineering teams working as one with yours.
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">
+            {siteConfig.tagline}. AI, cloud and engineering teams that work as part of yours.
           </p>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="mt-6 inline-block font-display text-lg font-medium text-foreground underline decoration-brand/40 decoration-2 underline-offset-4 transition-colors hover:decoration-brand"
+            className="mt-5 inline-block text-sm font-medium text-brand hover:underline"
           >
             {siteConfig.email}
           </a>
         </div>
 
-        <div className="md:col-span-4">
-          <h2 className="font-mono text-xs font-medium tracking-wide text-muted uppercase">Services</h2>
-          <ul className="mt-4 space-y-3 text-sm">
+        <div className="lg:col-span-4">
+          <h2 className="text-sm font-medium">Services</h2>
+          <ul className="mt-4 space-y-3 text-sm text-muted">
             {services.map((service) => (
               <li key={service.id}>
-                <a href="#services" className="text-foreground/80 transition-colors hover:text-brand">
+                <a href="#services" className="hover:text-foreground hover:underline">
                   {service.title}
                 </a>
               </li>
@@ -46,41 +46,38 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="md:col-span-3">
-          <h2 className="font-mono text-xs font-medium tracking-wide text-muted uppercase">Company</h2>
-          <ul className="mt-4 space-y-3 text-sm">
+        <div className="lg:col-span-3">
+          <h2 className="text-sm font-medium">Company</h2>
+          <ul className="mt-4 space-y-3 text-sm text-muted">
             {navItems.map((item) => (
               <li key={item.href}>
-                <a href={item.href} className="text-foreground/80 transition-colors hover:text-brand">
+                <a href={item.href} className="hover:text-foreground hover:underline">
                   {item.label}
                 </a>
               </li>
             ))}
-            <li>
-              <a href="#contact" className="text-foreground/80 transition-colors hover:text-brand">
-                Contact
-              </a>
-            </li>
           </ul>
         </div>
       </Container>
 
-      <Container className="flex flex-col items-center justify-between gap-4 border-t border-border py-6 text-sm text-muted sm:flex-row">
-        <p>
-          © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
-        </p>
-        {socials.length > 0 && (
-          <ul className="flex gap-5">
-            {socials.map(([key, url]) => (
-              <li key={key}>
-                <a href={url} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
-                  {socialLabels[key]}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-      </Container>
+      <div className="border-t border-border">
+        <Container className="flex flex-col justify-between gap-4 py-6 text-sm text-muted sm:flex-row">
+          <p>
+            © {new Date().getFullYear()} {siteConfig.name}
+          </p>
+          {socials.length > 0 && (
+            <ul className="flex gap-6">
+              {socials.map(([key, url]) => (
+                <li key={key}>
+                  <a href={url} target="_blank" rel="noopener noreferrer" className="hover:text-foreground">
+                    {socialLabels[key]}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </Container>
+      </div>
     </footer>
   );
 }

@@ -4,129 +4,107 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
- * Design tokens. Components use the semantic names (bg-surface, text-muted…),
- * never raw hex values, so both themes stay in sync.
+ * Design tokens, modelled on Material 3 (Google's open design system).
+ * Components use the semantic names (bg-surface, text-muted…), never raw hex.
+ *
+ *  background   page (pure white / neutral dark grey, no warm tints)
+ *  surface*     tonal containers, lowest to highest
+ *  brand        primary blue; brand-container is its soft tonal fill
+ *  tone-*       pastel accent containers for icon chips and highlights
  * ------------------------------------------------------------------------ */
-/* Sunset palette: coral brand, plum accent, cream (light) / aubergine (dark).
- * Light-mode coral is deepened so `text-brand` and white-on-brand pass WCAG AA. */
 :root {
-  --background: #fbf7f4;
-  --surface: #ffffff;
-  --surface-2: #f5ede8;
-  --foreground: #1c1020;
-  --muted: #6b5a66;
-  --border: #ecdfd8;
-  --brand: #cc3d26;
-  --brand-strong: #b3321d;
+  color-scheme: light;
+  --background: #ffffff;
+  --surface: #f8fafd;
+  --surface-2: #f0f4f9;
+  --surface-3: #e9eef6;
+  --foreground: #1f1f1f;
+  --muted: #444746;
+  --border: #dde3ea;
+  --outline: #747775;
+  --brand: #0b57d0;
+  --brand-hover: #0a4dbb;
   --on-brand: #ffffff;
-  --accent: #7c3aed;
-  --highlight: #f59e0b;
-  --ring: rgb(204 61 38 / 0.45);
-  --grid-line: rgb(28 16 32 / 0.045);
-  --shadow-tint: rgb(92 32 40 / 0.22);
-  --grain-opacity: 0.035;
+  --brand-container: #d3e3fd;
+  --on-brand-container: #041e49;
+  --tone-blue: #d3e3fd;
+  --on-tone-blue: #0842a0;
+  --tone-green: #c4eed0;
+  --on-tone-green: #0f5223;
+  --tone-yellow: #ffe8a3;
+  --on-tone-yellow: #5b4300;
+  --tone-rose: #ffdad6;
+  --on-tone-rose: #8c1d18;
+  --danger: #b3261e;
+  --ring: #0b57d0;
 }
 
 .dark {
-  --background: #0f0812;
-  --surface: #1a1020;
-  --surface-2: #23162b;
-  --foreground: #f6eef3;
-  --muted: #b3a3ad;
-  --border: #33223b;
-  --brand: #ff7a5c;
-  --brand-strong: #ff957c;
-  --on-brand: #1c1020;
-  --accent: #c084fc;
-  --highlight: #fbbf24;
-  --ring: rgb(255 122 92 / 0.55);
-  --grid-line: rgb(255 240 245 / 0.04);
-  --shadow-tint: rgb(0 0 0 / 0.55);
-  --grain-opacity: 0.05;
+  color-scheme: dark;
+  --background: #131314;
+  --surface: #1b1b1c;
+  --surface-2: #1e1f20;
+  --surface-3: #282a2c;
+  --foreground: #e3e3e3;
+  --muted: #c4c7c5;
+  --border: #3c4043;
+  --outline: #8e918f;
+  --brand: #a8c7fa;
+  --brand-hover: #bcd4fb;
+  --on-brand: #062e6f;
+  --brand-container: #0842a0;
+  --on-brand-container: #d3e3fd;
+  --tone-blue: #0842a0;
+  --on-tone-blue: #d3e3fd;
+  --tone-green: #0f5223;
+  --on-tone-green: #c4eed0;
+  --tone-yellow: #4a3800;
+  --on-tone-yellow: #ffe8a3;
+  --tone-rose: #8c1d18;
+  --on-tone-rose: #ffdad6;
+  --danger: #f2b8b5;
+  --ring: #a8c7fa;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
+  --color-outline: var(--outline);
   --color-brand: var(--brand);
-  --color-brand-strong: var(--brand-strong);
+  --color-brand-hover: var(--brand-hover);
   --color-on-brand: var(--on-brand);
-  --color-accent: var(--accent);
-  --color-highlight: var(--highlight);
+  --color-brand-container: var(--brand-container);
+  --color-on-brand-container: var(--on-brand-container);
+  --color-tone-blue: var(--tone-blue);
+  --color-on-tone-blue: var(--on-tone-blue);
+  --color-tone-green: var(--tone-green);
+  --color-on-tone-green: var(--on-tone-green);
+  --color-tone-yellow: var(--tone-yellow);
+  --color-on-tone-yellow: var(--on-tone-yellow);
+  --color-tone-rose: var(--tone-rose);
+  --color-on-tone-rose: var(--on-tone-rose);
+  --color-danger: var(--danger);
   --color-ring: var(--ring);
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-google-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-google-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-google-sans-code), ui-monospace, SFMono-Regular, monospace;
 
-  --radius-2xl: 1.25rem;
-  --radius-3xl: 1.75rem;
+  --ease-m3: cubic-bezier(0.2, 0, 0, 1);
 
-  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
-  --animate-spin-slow: spin 24s linear infinite;
-  --animate-spin-slow-reverse: spin 24s linear infinite reverse;
-  --animate-spin-slower: spin 40s linear infinite reverse;
-  --animate-spin-slower-reverse: spin 40s linear infinite;
-  --animate-pulse-ring: pulse-ring 3s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  --animate-float: float 7s ease-in-out infinite;
-  --animate-dash: dash 1.6s linear infinite;
-  --animate-shimmer: shimmer 3.5s ease-in-out infinite;
-  --animate-aurora: aurora 18s ease-in-out infinite alternate;
-
-  @keyframes marquee {
+  /* Banner carousel: the active dot fills over one slide interval. */
+  --animate-slide-progress: slide-progress var(--slide-duration, 6s) linear forwards;
+  @keyframes slide-progress {
     from {
-      transform: translateX(0);
+      transform: scaleX(0);
     }
     to {
-      transform: translateX(-50%);
-    }
-  }
-  @keyframes float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
-  @keyframes dash {
-    to {
-      stroke-dashoffset: -24;
-    }
-  }
-  @keyframes shimmer {
-    0% {
-      background-position: -200% 0;
-    }
-    60%,
-    100% {
-      background-position: 200% 0;
-    }
-  }
-  @keyframes pulse-ring {
-    0% {
-      transform: scale(0.9);
-      opacity: 0.7;
-    }
-    100% {
-      transform: scale(1.9);
-      opacity: 0;
-    }
-  }
-  @keyframes aurora {
-    0% {
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-    50% {
-      transform: translate3d(6%, -4%, 0) scale(1.08);
-    }
-    100% {
-      transform: translate3d(-4%, 5%, 0) scale(0.96);
+      transform: scaleX(1);
     }
   }
 }
@@ -134,7 +112,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5.5rem;
+    scroll-padding-top: 5rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -144,66 +122,26 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Fine film grain over the whole page for a warmer, less digital finish. */
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    pointer-events: none;
-    opacity: var(--grain-opacity);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
   ::selection {
-    background: color-mix(in srgb, var(--brand) 28%, transparent);
+    background: var(--brand-container);
+    color: var(--on-brand-container);
   }
 
   :focus-visible {
-    outline: 2px solid var(--brand);
-    outline-offset: 3px;
-    border-radius: 6px;
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    @apply font-display tracking-tight text-balance;
+    @apply font-display text-balance;
   }
 
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
-  }
-}
-
-@layer components {
-  .text-gradient {
-    background-image: linear-gradient(100deg in oklch, var(--brand) 10%, var(--accent) 90%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .bg-grid {
-    background-image:
-      linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-      linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
-    background-size: 56px 56px;
-  }
-
-  /* Warm three-stop gradient for badges, marks and progress lines. */
-  .bg-sunset {
-    background-image: linear-gradient(120deg in oklch, var(--highlight) -10%, var(--brand) 35%, var(--accent) 110%);
-  }
-
-  .mask-fade-edges {
-    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-  }
-
-  .mask-radial {
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
   }
 }
 

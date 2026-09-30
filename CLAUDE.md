@@ -16,7 +16,7 @@ contact API. Deployed on Vercel.
 | Language   | TypeScript 5.9 (strict)                                                  |
 | Styling    | Tailwind CSS 4, CSS-first config in `src/app/globals.css` (no JS config) |
 | Animation  | `motion` 13 (formerly framer-motion), imported from `motion/react`       |
-| Theming    | `next-themes` (class strategy, system default)                           |
+| Theming    | `next-themes` (class strategy, follows the OS setting, no toggle)        |
 | UI helpers | Headless UI (dialog), Heroicons, react-hook-form                         |
 | Tooling    | ESLint 9 flat config (`eslint-config-next`), Prettier + Tailwind plugin  |
 
@@ -53,8 +53,9 @@ src/
     opengraph-image.tsx   Generated OG image
     robots.ts, sitemap.ts, manifest.ts, icon.svg, not-found.tsx
   components/
-    layout/    Navbar, Footer, ThemeToggle
-    sections/  One file per page section (Hero, Services, Engagement, Process, WhyUs, Faq, Contact…)
+    layout/    Navbar, Footer
+    sections/  One file per page section (BannerCarousel, Hero + HeroMock, Tools, Services, Commitments,
+               Engagement, Process, WhyUs, Work, Faq, Contact)
     motion/    Reusable animation primitives (see below)
     ui/        Small presentational pieces (Button, Container, SectionHeading, Logo)
   config/site.ts   Site name, URL, email, nav items, social links
@@ -70,20 +71,32 @@ src/
 - **Never invent facts.** No fake client logos, testimonials, case studies, awards or statistics.
   Figures in `commitments` are promises the business makes; confirm with the owner before changing
   them. Add real testimonials or case studies only when the user supplies them.
-- Tech names in the marquee are text only; don't add third-party logos without permission.
+- `work`, `clients`, `testimonials` and `team` in `home.ts` start **empty**, and each section hides
+  itself while its array is empty. Fill them only with material the business supplies (images go in
+  `public/images/work/` and `public/images/team/`). Never add placeholder entries.
+- Tech names are text only; don't add third-party logos without permission.
+- House style: British spelling, plain words, no em dashes, no stock marketing phrases.
 
 ### Styling
 
-- Use the **semantic colour tokens** (`bg-background`, `bg-surface`, `bg-surface-2`, `text-foreground`,
-  `text-muted`, `border-border`, `text-brand`, `text-accent`, `ring-ring`). Never hard-code hex values
-  in components. Tokens are defined for both themes at the top of `globals.css`.
-- Fonts: `font-display` (Bricolage Grotesque) for headings, `font-sans` (Inter) for body, `font-mono`
-  (JetBrains Mono) for small labels.
+- Look: Google product-site style built on **Material 3** (Google's open design system): white
+  canvas, cool blue-grey tonal surfaces, blue primary, pill buttons, large rounded cards (28px), pastel
+  icon chips, centred section headings. Don't copy Google's logo, four-colour brand palette or marks.
+- Use the **semantic colour tokens** (`bg-background`, `bg-surface`, `bg-surface-2`, `bg-surface-3`,
+  `text-foreground`, `text-muted`, `border-border`, `border-outline`, `bg-brand`/`text-on-brand`,
+  `bg-brand-container`/`text-on-brand-container`, `bg-tone-{blue,green,yellow,rose}` with matching
+  `text-on-tone-*`, `text-danger`, `ring-ring`). Never hard-code hex values in components. Tokens are
+  defined for light and dark (Gemini-style neutral greys) at the top of `globals.css`.
+- Fonts: Google Sans (`font-sans`/`font-display`) everywhere, Google Sans Code for `font-mono`.
+  Headings use `font-normal`; weight comes from size, not boldness.
+- Buttons: `ButtonLink`/`Button` with `variant` `filled | tonal | outlined | text`.
 - Use `cn()` from `@/lib/cn` to combine conditional classes.
 - Watch for conflicting display utilities: a component whose base classes include `inline-flex` can't
   be hidden with `hidden sm:inline-flex` via `className`; wrap it in an element instead.
-- Layout width: always wrap section content in `<Container>` (max-w-7xl with responsive padding).
-- Utility helpers in `globals.css`: `.text-gradient`, `.bg-grid`, `.mask-radial`, `.mask-fade-edges`.
+- Layout width: always wrap section content in `<Container>` (max-w-[80rem] with responsive padding).
+  The header is the exception: it spans the full viewport width.
+- Section openers: `SectionHeading` (eyebrow + h2 + description, `align="center" | "left"`). Pastel
+  icon squares: `IconChip` with a `tone`, cycling through `toneOrder`.
 
 ### Animation (important)
 
@@ -91,30 +104,31 @@ src/
   Using `motion.*` throws at runtime.
 - Import from `"motion/react"`. Any component using motion must be a client component (`"use client"`).
 - Reach for the primitives before writing custom animation:
-  - `Reveal`: fade/blur/slide in on first scroll into view (`direction`, `delay`, `as`)
+  - `Reveal`: short fade/slide in on first scroll into view (`direction`, `delay`, `as`)
   - `Stagger` + `StaggerItem`: children animate in sequence
-  - `Spotlight`: card with a pointer-following glow (writes CSS vars, no re-renders)
-  - `Counter`: counts up when visible (server-renders the final value for SEO)
-  - `Marquee`: CSS-only infinite scroller (server component)
-  - `Magnetic`: subtle pointer attraction for CTAs (mouse only)
   - `ScrollProgress`: top-of-page progress bar
+- `sections/BannerCarousel.tsx` is the photo banner at the top. Slides live in `bannerSlides` in
+  `home.ts`. Autoplay is driven by the active dot's CSS progress animation (pausing the animation
+  pauses the carousel), stops on hover/focus/hidden tab, has a pause button, and is off entirely
+  under reduced motion. Photos are free-licence Unsplash images hotlinked via `next.config.ts`
+  `images.remotePatterns`; swap in the business's own photos from `public/images/banner/` when supplied.
+- `sections/HeroMock.tsx` is a decorative HTML "product UI" illustration (assistant, pipeline,
+  sprint board). Keep it `aria-hidden` and free of client names or metrics.
 - Shared easing: `easeOut` exported from `motion/Reveal.tsx`. Keep durations 0.3–0.8s.
 - Prefer CSS keyframes (`animate-*` tokens in `globals.css`) for continuous/looping motion; prefer
   `motion` for entrance, scroll-linked and interactive motion.
 - Animate only `transform`, `opacity` and `filter`; don't animate layout properties in loops.
 - **Respect reduced motion.** `MotionConfig reducedMotion="user"` handles motion components; the
   `prefers-reduced-motion` block in `globals.css` stops CSS animations. Anything driven by JS timers
-  (e.g. the hero's rotating word) must check `matchMedia("(prefers-reduced-motion: reduce)")`.
-- Decorative animated elements get `aria-hidden`. Changing text (like the rotating word) must have a
-  stable screen-reader alternative.
+  or `requestAnimationFrame` must check `matchMedia("(prefers-reduced-motion: reduce)")`.
+- Decorative animated elements get `aria-hidden`. Changing text must have a stable screen-reader
+  alternative.
 
 ### Components and data flow
 
 - Default to server components; add `"use client"` only when a component needs state, effects,
   browser APIs or motion.
-- Content objects contain icon **components** (functions), which can't be passed as props from a
-  server component to a client component. Client sections import content directly from
-  `@/content/home` instead of receiving it as props.
+- Sections import content directly from `@/content/home` rather than receiving it as props.
 - Section anchors: every section has an `id` that matches `navItems` in `config/site.ts` (the navbar
   highlights the active one), plus `aria-labelledby` pointing at its heading.
 

@@ -8,103 +8,64 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { navItems } from "@/config/site";
 import { useActiveSection } from "@/lib/useActiveSection";
 import { cn } from "@/lib/cn";
-import { Container } from "@/components/ui/Container";
-import { ButtonLink } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
-import { ThemeToggle } from "./ThemeToggle";
 import { easeOut } from "@/components/motion/Reveal";
 
 const sectionIds = navItems.map((item) => item.href.slice(1));
 
+/** Full-width app bar: logo on the left, pill-shaped nav links on the right. */
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hovered, setHovered] = useState<string | null>(null);
   const active = useActiveSection(sectionIds);
   const { scrollY } = useScroll();
-
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    const previous = scrollY.getPrevious() ?? 0;
-    setScrolled(latest > 12);
-    // Tuck the bar away while scrolling down past the hero; bring it back on scroll up.
-    setHidden(latest > 640 && latest > previous + 4);
-    if (latest < previous - 4) setHidden(false);
-  });
-
-  const highlighted = hovered ?? active;
+  useMotionValueEvent(scrollY, "change", (latest) => setScrolled(latest > 8));
 
   return (
     <>
-      <m.header
-        initial={{ y: -24, opacity: 0 }}
-        animate={{ y: hidden && !menuOpen ? "-110%" : 0, opacity: 1 }}
-        transition={{ duration: 0.45, ease: easeOut }}
-        className="fixed inset-x-0 top-0 z-50 pt-3"
+      <header
+        className={cn(
+          "fixed inset-x-0 top-0 z-50 border-b bg-background/95 backdrop-blur-lg transition-colors duration-300",
+          scrolled ? "border-border" : "border-transparent",
+        )}
       >
-        <Container>
-          <nav
-            aria-label="Main"
-            className={cn(
-              "flex h-16 items-center justify-between rounded-2xl border px-3 transition-all duration-500 sm:px-4",
-              scrolled
-                ? "border-border bg-background/75 shadow-[0_10px_40px_-20px_var(--shadow-tint)] backdrop-blur-xl"
-                : "border-transparent bg-transparent",
-            )}
-          >
-            <Link href="/" aria-label="UnityDev Digital home" className="rounded-lg">
-              <Logo />
-            </Link>
+        <nav aria-label="Main" className="flex h-16 w-full items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+          <Link href="/" aria-label="UnityDev Digital home" className="rounded-lg">
+            <Logo />
+          </Link>
 
-            <ul className="hidden items-center gap-1 lg:flex" onMouseLeave={() => setHovered(null)}>
-              {navItems.map((item) => {
-                const id = item.href.slice(1);
-                const isActive = active === id;
-                return (
-                  <li key={item.href} className="relative">
-                    <a
-                      href={item.href}
-                      onMouseEnter={() => setHovered(id)}
-                      aria-current={isActive ? "location" : undefined}
-                      className={cn(
-                        "relative z-10 block rounded-full px-4 py-2 text-sm font-medium transition-colors",
-                        isActive || hovered === id ? "text-foreground" : "text-muted",
-                      )}
-                    >
-                      {item.label}
-                    </a>
-                    {highlighted === id && (
-                      <m.span
-                        layoutId="nav-pill"
-                        aria-hidden
-                        className="absolute inset-0 rounded-full bg-surface-2"
-                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
-                      />
+          <ul className="hidden items-center gap-1 lg:flex">
+            {navItems.map((item) => {
+              const isActive = active === item.href.slice(1);
+              return (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    aria-current={isActive ? "location" : undefined}
+                    className={cn(
+                      "block rounded-full px-4 py-2 text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-brand-container text-on-brand-container"
+                        : "text-muted hover:bg-surface-2 hover:text-foreground",
                     )}
-                  </li>
-                );
-              })}
-            </ul>
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
 
-            <div className="flex items-center gap-2">
-              <ThemeToggle />
-              <span className="hidden sm:block">
-                <ButtonLink href="#contact" arrow>
-                  Let&apos;s talk
-                </ButtonLink>
-              </span>
-              <button
-                type="button"
-                onClick={() => setMenuOpen(true)}
-                aria-label="Open menu"
-                className="grid size-10 place-items-center rounded-full border border-border bg-surface/70 lg:hidden"
-              >
-                <Bars3Icon className="size-5" />
-              </button>
-            </div>
-          </nav>
-        </Container>
-      </m.header>
+          <button
+            type="button"
+            onClick={() => setMenuOpen(true)}
+            aria-label="Open menu"
+            className="grid size-10 place-items-center rounded-full text-muted hover:bg-surface-2 lg:hidden"
+          >
+            <Bars3Icon className="size-6" />
+          </button>
+        </nav>
+      </header>
 
       <AnimatePresence>
         {menuOpen && (
@@ -113,49 +74,41 @@ export function Navbar() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-background/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/30"
               aria-hidden
             />
-            <DialogPanel className="fixed inset-x-3 top-3">
+            <DialogPanel className="fixed inset-y-0 left-0 w-[min(22rem,85vw)]">
               <m.div
-                initial={{ opacity: 0, y: -16, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -12, scale: 0.98 }}
-                transition={{ duration: 0.3, ease: easeOut }}
-                className="rounded-3xl border border-border bg-surface p-5 shadow-2xl"
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ duration: 0.35, ease: easeOut }}
+                className="h-full rounded-r-[1.75rem] bg-surface-2 p-4"
               >
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between px-2 py-2">
                   <Logo />
                   <button
                     type="button"
                     onClick={() => setMenuOpen(false)}
                     aria-label="Close menu"
-                    className="grid size-10 place-items-center rounded-full border border-border"
+                    className="grid size-10 place-items-center rounded-full text-muted hover:bg-surface-3"
                   >
-                    <XMarkIcon className="size-5" />
+                    <XMarkIcon className="size-6" />
                   </button>
                 </div>
                 <ul className="mt-6 space-y-1">
-                  {navItems.map((item, index) => (
-                    <m.li
-                      key={item.href}
-                      initial={{ opacity: 0, x: -12 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.05 + index * 0.05, duration: 0.35, ease: easeOut }}
-                    >
+                  {navItems.map((item) => (
+                    <li key={item.href}>
                       <a
                         href={item.href}
                         onClick={() => setMenuOpen(false)}
-                        className="block rounded-xl px-3 py-3 font-display text-xl font-medium hover:bg-surface-2"
+                        className="block rounded-full px-5 py-3.5 text-base font-medium hover:bg-surface-3"
                       >
                         {item.label}
                       </a>
-                    </m.li>
+                    </li>
                   ))}
                 </ul>
-                <ButtonLink href="#contact" size="lg" arrow className="mt-6 w-full" onClick={() => setMenuOpen(false)}>
-                  Let&apos;s talk
-                </ButtonLink>
               </m.div>
             </DialogPanel>
           </Dialog>

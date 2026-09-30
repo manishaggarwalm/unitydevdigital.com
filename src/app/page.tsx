@@ -1,9 +1,12 @@
+import { BannerCarousel } from "@/components/sections/BannerCarousel";
 import { Hero } from "@/components/sections/Hero";
-import { TechMarquee } from "@/components/sections/TechMarquee";
+import { Tools } from "@/components/sections/Tools";
 import { Services } from "@/components/sections/Services";
+import { Commitments } from "@/components/sections/Commitments";
 import { Engagement } from "@/components/sections/Engagement";
 import { Process } from "@/components/sections/Process";
 import { WhyUs } from "@/components/sections/WhyUs";
+import { Work } from "@/components/sections/Work";
 import { Faq } from "@/components/sections/Faq";
 import { Contact } from "@/components/sections/Contact";
 import { faqs } from "@/content/home";
@@ -25,12 +28,15 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
       />
+      <BannerCarousel />
       <Hero />
-      <TechMarquee />
+      <Tools />
       <Services />
+      <Commitments />
       <Engagement />
       <Process />
       <WhyUs />
+      <Work />
       <Faq />
       <Contact />
     </>

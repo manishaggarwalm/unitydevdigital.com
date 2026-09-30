@@ -5,6 +5,7 @@ export const alt = `${siteConfig.name}: AI, Cloud & Software Development Service
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+// Mirrors the site's Material look: white canvas, blue primary, soft tonal panel.
 export default function OpengraphImage() {
   return new ImageResponse(
     <div
@@ -15,40 +16,45 @@ export default function OpengraphImage() {
         flexDirection: "column",
         justifyContent: "space-between",
         padding: 72,
-        background: "radial-gradient(circle at 82% 18%, #5a1f3f 0%, #0f0812 58%)",
-        color: "#f6eef3",
+        background: "#ffffff",
+        color: "#1f1f1f",
         fontFamily: "sans-serif",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+      <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 34 }}>
         <div
           style={{
-            width: 72,
-            height: 72,
-            borderRadius: 20,
-            background: "linear-gradient(135deg, #fbbf24, #ff7a5c 45%, #c084fc)",
+            width: 60,
+            height: 60,
+            borderRadius: 16,
+            background: "#0b57d0",
+            color: "#ffffff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: 44,
+            fontSize: 34,
             fontWeight: 700,
           }}
         >
           U
         </div>
-        <div style={{ fontSize: 36, fontWeight: 600 }}>{siteConfig.name}</div>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>
-          AI, Cloud & Development Teams
+        <div style={{ display: "flex" }}>
+          UnityDev&nbsp;<span style={{ color: "#444746" }}>Digital</span>
         </div>
-        <div style={{ fontSize: 32, color: "#b3a3ad", marginTop: 24 }}>{siteConfig.tagline}</div>
       </div>
-      <div style={{ display: "flex", gap: 16, fontSize: 24, color: "#e3d4dc" }}>
-        {["AI & ML", "Cloud & DevOps", "Dedicated Teams", "Custom Software"].map((label) => (
+      <div style={{ display: "flex", fontSize: 78, lineHeight: 1.08, letterSpacing: -2, maxWidth: 980 }}>
+        Engineering for the hard parts of your roadmap
+      </div>
+      <div style={{ display: "flex", gap: 14, fontSize: 24 }}>
+        {[
+          ["AI & ML", "#d3e3fd", "#0842a0"],
+          ["Cloud & DevOps", "#c4eed0", "#0f5223"],
+          ["Dedicated teams", "#ffe8a3", "#5b4300"],
+          ["Custom software", "#ffdad6", "#8c1d18"],
+        ].map(([label, bg, fg]) => (
           <div
             key={label}
-            style={{ padding: "10px 22px", borderRadius: 999, border: "1px solid #3d2847", display: "flex" }}
+            style={{ display: "flex", padding: "12px 24px", borderRadius: 999, background: bg, color: fg }}
           >
             {label}
           </div>

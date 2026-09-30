@@ -2,48 +2,51 @@ import type { ReactNode } from "react";
 import { Reveal } from "@/components/motion/Reveal";
 import { cn } from "@/lib/cn";
 
-export function Eyebrow({ children, className }: { children: ReactNode; className?: string }) {
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full border border-border bg-surface/70 px-3 py-1 font-mono text-xs font-medium tracking-wide text-muted uppercase backdrop-blur",
-        className,
-      )}
-    >
-      <span className="bg-sunset size-1.5 rounded-full" />
-      {children}
-    </span>
-  );
-}
-
+/** Centred section opener: small brand-coloured eyebrow, large heading, optional description. */
 export function SectionHeading({
+  id,
   eyebrow,
   title,
   description,
   align = "center",
-  id,
+  className,
 }: {
-  eyebrow: string;
+  id: string;
+  eyebrow?: string;
   title: ReactNode;
   description?: ReactNode;
   align?: "center" | "left";
-  id?: string;
+  className?: string;
 }) {
   return (
-    <div className={cn("max-w-3xl", align === "center" && "mx-auto text-center")}>
-      <Reveal>
-        <Eyebrow>{eyebrow}</Eyebrow>
-      </Reveal>
-      <Reveal delay={0.08}>
-        <h2 id={id} className="mt-5 text-3xl font-semibold sm:text-4xl lg:text-5xl">
-          {title}
-        </h2>
-      </Reveal>
-      {description && (
-        <Reveal delay={0.16}>
-          <p className="mt-5 text-lg leading-relaxed text-pretty text-muted">{description}</p>
-        </Reveal>
-      )}
-    </div>
+    <Reveal className={cn("max-w-3xl", align === "center" && "mx-auto text-center", className)}>
+      {eyebrow && <p className="text-sm font-medium text-brand">{eyebrow}</p>}
+      <h2
+        id={id}
+        className="mt-3 text-[2rem] leading-tight font-normal tracking-[-0.01em] sm:text-5xl sm:leading-[1.1]"
+      >
+        {title}
+      </h2>
+      {description && <p className="mt-5 text-lg leading-relaxed text-pretty text-muted">{description}</p>}
+    </Reveal>
+  );
+}
+
+const tones = {
+  blue: "bg-tone-blue text-on-tone-blue",
+  green: "bg-tone-green text-on-tone-green",
+  yellow: "bg-tone-yellow text-on-tone-yellow",
+  rose: "bg-tone-rose text-on-tone-rose",
+} as const;
+
+export type Tone = keyof typeof tones;
+export const toneOrder: Tone[] = ["blue", "green", "yellow", "rose"];
+
+/** Rounded pastel square holding an icon, the Material "icon container". */
+export function IconChip({ tone, children, className }: { tone: Tone; children: ReactNode; className?: string }) {
+  return (
+    <span aria-hidden className={cn("grid size-12 place-items-center rounded-2xl", tones[tone], className)}>
+      {children}
+    </span>
   );
 }
