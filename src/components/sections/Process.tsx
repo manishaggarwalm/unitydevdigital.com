@@ -29,7 +29,7 @@ export function Process() {
           <m.div
             aria-hidden
             style={{ scaleY }}
-            className="absolute top-0 bottom-0 left-5 w-px origin-top bg-gradient-to-b from-brand to-accent md:left-1/2 md:-translate-x-1/2"
+            className="absolute top-0 bottom-0 left-5 w-px origin-top bg-gradient-to-b from-highlight via-brand to-accent md:left-1/2 md:-translate-x-1/2"
           />
 
           {processSteps.map((step, index) => {

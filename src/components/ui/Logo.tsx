@@ -7,7 +7,7 @@ export function LogoMark({ className }: { className?: string }) {
     <span
       aria-hidden
       className={cn(
-        "inline-grid size-9 shrink-0 place-items-center rounded-[11px] bg-gradient-to-br from-brand to-accent shadow-[0_6px_20px_-6px_var(--brand)]",
+        "bg-sunset inline-grid size-9 shrink-0 place-items-center rounded-[12px] shadow-[0_6px_20px_-6px_var(--brand)]",
         className,
       )}
     >

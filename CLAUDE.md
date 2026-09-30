@@ -77,7 +77,7 @@ src/
 - Use the **semantic colour tokens** (`bg-background`, `bg-surface`, `bg-surface-2`, `text-foreground`,
   `text-muted`, `border-border`, `text-brand`, `text-accent`, `ring-ring`). Never hard-code hex values
   in components. Tokens are defined for both themes at the top of `globals.css`.
-- Fonts: `font-display` (Outfit) for headings, `font-sans` (Inter) for body, `font-mono`
+- Fonts: `font-display` (Bricolage Grotesque) for headings, `font-sans` (Inter) for body, `font-mono`
   (JetBrains Mono) for small labels.
 - Use `cn()` from `@/lib/cn` to combine conditional classes.
 - Watch for conflicting display utilities: a component whose base classes include `inline-flex` can't

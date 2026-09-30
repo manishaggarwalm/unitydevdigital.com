@@ -15,8 +15,8 @@ export default function OpengraphImage() {
         flexDirection: "column",
         justifyContent: "space-between",
         padding: 72,
-        background: "radial-gradient(circle at 80% 20%, #2a1f8f 0%, #060913 55%)",
-        color: "#eef1f8",
+        background: "radial-gradient(circle at 82% 18%, #5a1f3f 0%, #0f0812 58%)",
+        color: "#f6eef3",
         fontFamily: "sans-serif",
       }}
     >
@@ -26,7 +26,7 @@ export default function OpengraphImage() {
             width: 72,
             height: 72,
             borderRadius: 20,
-            background: "linear-gradient(135deg, #7c6ffa, #22d3ee)",
+            background: "linear-gradient(135deg, #fbbf24, #ff7a5c 45%, #c084fc)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -42,13 +42,13 @@ export default function OpengraphImage() {
         <div style={{ fontSize: 76, fontWeight: 700, lineHeight: 1.05, letterSpacing: -2 }}>
           AI, Cloud & Development Teams
         </div>
-        <div style={{ fontSize: 32, color: "#98a2b8", marginTop: 24 }}>{siteConfig.tagline}</div>
+        <div style={{ fontSize: 32, color: "#b3a3ad", marginTop: 24 }}>{siteConfig.tagline}</div>
       </div>
-      <div style={{ display: "flex", gap: 16, fontSize: 24, color: "#c7cde0" }}>
+      <div style={{ display: "flex", gap: 16, fontSize: 24, color: "#e3d4dc" }}>
         {["AI & ML", "Cloud & DevOps", "Dedicated Teams", "Custom Software"].map((label) => (
           <div
             key={label}
-            style={{ padding: "10px 22px", borderRadius: 999, border: "1px solid #2b3552", display: "flex" }}
+            style={{ padding: "10px 22px", borderRadius: 999, border: "1px solid #3d2847", display: "flex" }}
           >
             {label}
           </div>

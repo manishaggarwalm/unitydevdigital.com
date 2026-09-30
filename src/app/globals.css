@@ -7,32 +7,42 @@
  * Design tokens. Components use the semantic names (bg-surface, text-muted…),
  * never raw hex values, so both themes stay in sync.
  * ------------------------------------------------------------------------ */
+/* Sunset palette: coral brand, plum accent, cream (light) / aubergine (dark).
+ * Light-mode coral is deepened so `text-brand` and white-on-brand pass WCAG AA. */
 :root {
-  --background: #f8f9fc;
+  --background: #fbf7f4;
   --surface: #ffffff;
-  --surface-2: #f1f3f9;
-  --foreground: #0a0f1f;
-  --muted: #5a6479;
-  --border: #e3e6ef;
-  --brand: #5b4cf5;
-  --brand-strong: #4636e0;
-  --accent: #0ea5c6;
-  --ring: rgb(91 76 245 / 0.45);
-  --grid-line: rgb(10 15 31 / 0.05);
+  --surface-2: #f5ede8;
+  --foreground: #1c1020;
+  --muted: #6b5a66;
+  --border: #ecdfd8;
+  --brand: #cc3d26;
+  --brand-strong: #b3321d;
+  --on-brand: #ffffff;
+  --accent: #7c3aed;
+  --highlight: #f59e0b;
+  --ring: rgb(204 61 38 / 0.45);
+  --grid-line: rgb(28 16 32 / 0.045);
+  --shadow-tint: rgb(92 32 40 / 0.22);
+  --grain-opacity: 0.035;
 }
 
 .dark {
-  --background: #060913;
-  --surface: #0c1120;
-  --surface-2: #121a2e;
-  --foreground: #eef1f8;
-  --muted: #98a2b8;
-  --border: #1d2640;
-  --brand: #7c6ffa;
-  --brand-strong: #9489ff;
-  --accent: #22d3ee;
-  --ring: rgb(124 111 250 / 0.55);
-  --grid-line: rgb(255 255 255 / 0.04);
+  --background: #0f0812;
+  --surface: #1a1020;
+  --surface-2: #23162b;
+  --foreground: #f6eef3;
+  --muted: #b3a3ad;
+  --border: #33223b;
+  --brand: #ff7a5c;
+  --brand-strong: #ff957c;
+  --on-brand: #1c1020;
+  --accent: #c084fc;
+  --highlight: #fbbf24;
+  --ring: rgb(255 122 92 / 0.55);
+  --grid-line: rgb(255 240 245 / 0.04);
+  --shadow-tint: rgb(0 0 0 / 0.55);
+  --grain-opacity: 0.05;
 }
 
 @theme inline {
@@ -44,12 +54,17 @@
   --color-border: var(--border);
   --color-brand: var(--brand);
   --color-brand-strong: var(--brand-strong);
+  --color-on-brand: var(--on-brand);
   --color-accent: var(--accent);
+  --color-highlight: var(--highlight);
   --color-ring: var(--ring);
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-outfit), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-inter), ui-sans-serif, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+
+  --radius-2xl: 1.25rem;
+  --radius-3xl: 1.75rem;
 
   --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
   --animate-spin-slow: spin 24s linear infinite;
@@ -129,6 +144,17 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* Fine film grain over the whole page for a warmer, less digital finish. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
   ::selection {
     background: color-mix(in srgb, var(--brand) 28%, transparent);
   }
@@ -154,7 +180,7 @@
 
 @layer components {
   .text-gradient {
-    background-image: linear-gradient(100deg, var(--brand) 10%, var(--accent) 90%);
+    background-image: linear-gradient(100deg in oklch, var(--brand) 10%, var(--accent) 90%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -165,6 +191,11 @@
       linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
       linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
     background-size: 56px 56px;
+  }
+
+  /* Warm three-stop gradient for badges, marks and progress lines. */
+  .bg-sunset {
+    background-image: linear-gradient(120deg in oklch, var(--highlight) -10%, var(--brand) 35%, var(--accent) 110%);
   }
 
   .mask-fade-edges {

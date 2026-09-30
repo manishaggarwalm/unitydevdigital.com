@@ -39,7 +39,7 @@ export function Engagement() {
               >
                 <div className="flex h-full flex-col rounded-[calc(1.5rem-1px)] bg-surface p-8">
                   {model.highlighted && (
-                    <span className="absolute -top-3 left-8 rounded-full bg-gradient-to-r from-brand to-accent px-3 py-1 text-xs font-semibold text-white">
+                    <span className="bg-sunset absolute -top-3 left-8 rounded-full px-3 py-1 text-xs font-semibold text-on-brand">
                       Most flexible
                     </span>
                   )}
